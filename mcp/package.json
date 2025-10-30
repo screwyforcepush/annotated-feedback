@@ -1,0 +1,27 @@
+{
+  "name": "annotated-feedback-mcp",
+  "version": "0.1.0",
+  "description": "Model Context Protocol server for annotated-feedback universal feedback triage",
+  "type": "module",
+  "main": "dist/server.js",
+  "bin": {
+    "feedback-mcp": "./dist/server.js"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/server.js",
+    "dev": "tsc -p tsconfig.json --watch"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.20.1",
+    "zod": "3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "typescript": "^5"
+  }
+}

@@ -1,0 +1,40 @@
+# Environment configuration
+.env
+.env.local
+.env*.local
+
+# Convex generated files
+convex/_generated/
+
+# Build outputs
+dist/
+widget/dist/
+mcp/dist/
+
+# Dependencies
+node_modules/
+widget/node_modules/
+mcp/node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Test coverage
+coverage/
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
