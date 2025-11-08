@@ -76,6 +76,48 @@ function App() {
 }
 ```
 
+#### Next.js (App Router) SSR Notes
+
+The widget depends on Excalidraw, which references `window`/`navigator` during module evaluation. When a Next.js App Router layout imports `FeedbackProvider` directly, the server render path throws `ReferenceError: navigator is not defined`.
+
+Work around this by:
+
+1. Wrapping the integration in a client component.
+2. Dynamically importing the widget on the client (e.g. inside `useEffect` or via `next/dynamic({ ssr: false })`).
+
+Example pattern:
+
+```tsx
+"use client";
+import { useEffect, useState } from "react";
+
+export function FeedbackWidgetProvider({ children }) {
+  const [FeedbackProvider, setFeedbackProvider] = useState(null);
+
+  useEffect(() => {
+    import("annotated-feedback/widget").then((mod) => {
+      setFeedbackProvider(() => mod.FeedbackProvider);
+    });
+  }, []);
+
+  return (
+    <>
+      {children}
+      {FeedbackProvider ? (
+        <FeedbackProvider
+          convexUrl={process.env.NEXT_PUBLIC_FEEDBACK_CONVEX_URL!}
+          project="my-app"
+          enabled
+          showButton
+        />
+      ) : null}
+    </>
+  );
+}
+```
+
+This keeps the widget disabled during SSR, then hydrates the overlay once the browser environment is available.
+
 ### Using the MCP Server
 
 ```bash
