@@ -19,8 +19,9 @@
     "LICENSE"
   ],
   "scripts": {
-    "build": "tsup src/index.ts --format cjs,esm --dts --clean && cp src/styles.css dist/styles.css",
-    "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
+    "build:styles": "node scripts/build-styles.mjs",
+    "build": "tsup src/index.ts --format cjs,esm --dts --clean && pnpm build:styles",
+    "dev": "tsup src/index.ts --format cjs,esm --dts --watch --onSuccess \"pnpm build:styles\"",
     "typecheck": "tsc --noEmit",
     "lint": "eslint src --ext .ts,.tsx",
     "test": "vitest run",

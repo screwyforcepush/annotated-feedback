@@ -1,4 +1,4 @@
-@import '@excalidraw/excalidraw/index.css';
+@import './excalidraw.css';
 
 /**
  * Root container inserted by FeedbackOverlayManager.

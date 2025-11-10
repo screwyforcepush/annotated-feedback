@@ -22,7 +22,6 @@ type ExcalidrawImperativeAPI = {
   getAppState(): any;
   updateScene(scene: { elements: ReadonlyArray<any>; appState: any }): void;
 };
-import '@excalidraw/excalidraw/index.css';
 import { useMutation } from 'convex/react';
 import type {
   FeedbackMetadata,
