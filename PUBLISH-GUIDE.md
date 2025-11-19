@@ -2,7 +2,28 @@
 
 **Package Name**: `annotated-feedback`
 **NPM Registry**: https://www.npmjs.com/package/annotated-feedback
-**Current Version**: 0.1.14
+**Current Version**: 0.1.19
+
+---
+
+## 🚨 CRITICAL: The Build Step
+
+**Version 0.1.18 was broken because the MCP server was NOT rebuilt after bumping the version!**
+
+The published package contained:
+- ✅ `package.json` with version 0.1.18
+- ✅ `mcp/src/server.ts` with version 0.1.18
+- ❌ `mcp/dist/server.js` **still had version 0.1.17** (stale!)
+
+**ALWAYS verify all three versions match before publishing:**
+```bash
+# Check all three version locations
+echo "package.json:" && grep '"version"' package.json
+echo "source:" && grep "version: '0\\.1\\." mcp/src/server.ts
+echo "COMPILED (this is what users get!):" && grep "version: '0\\.1\\." mcp/dist/server.js
+```
+
+If the compiled version doesn't match, **STOP and rebuild!**
 
 ---
 
@@ -28,13 +49,63 @@ import 'annotated-feedback/widget/styles';
 
 ---
 
+## 📋 Quick Reference Workflow
+
+**TL;DR - The essential steps to publish without breaking anything:**
+
+```bash
+# 1. Bump version in package.json
+npm version patch --no-git-tag-version
+
+# 2. Update version in mcp/src/server.ts (line 65)
+# Edit manually to match package.json version
+
+# 3. Install dependencies (if needed)
+pnpm install
+cd widget && pnpm install
+cd ../mcp && pnpm install
+cd ..
+
+# 4. BUILD EVERYTHING (DO NOT SKIP!)
+pnpm widget:build
+pnpm mcp:build
+
+# 5. VERIFY VERSIONS MATCH
+echo "package.json:" && grep '"version"' package.json
+echo "source:" && grep "version: '0\\.1\\." mcp/src/server.ts
+echo "COMPILED:" && grep "version: '0\\.1\\." mcp/dist/server.js
+# ☝️ ALL THREE MUST SHOW THE SAME VERSION!
+
+# 6. Test package contents
+npm publish --dry-run
+# Should show ~48 files, ~370KB
+
+# 7. Commit and push
+git add package.json mcp/src/server.ts mcp/tsconfig.json pnpm-lock.yaml
+git commit -m "Bump to vX.Y.Z - <description>"
+git push
+
+# 8. Publish
+npm whoami  # Verify: savagenpm
+npm publish --access public
+
+# 9. Verify
+npm view annotated-feedback version
+```
+
+---
+
 ## Pre-Publish Checklist
 
 - [ ] All changes committed and pushed
 - [ ] Tests passing
-- [ ] Widget and MCP built successfully
-- [ ] Version bumped in both `package.json` and `mcp/src/server.ts`
+- [ ] **Widget built successfully** (`pnpm widget:build`)
+- [ ] **MCP built successfully** (`pnpm mcp:build`)
+- [ ] Version bumped in `package.json`
+- [ ] Version bumped in `mcp/src/server.ts`
+- [ ] **CRITICAL: Version in `mcp/dist/server.js` matches package.json**
 - [ ] Git working tree clean
+- [ ] Dry run shows ~48 files
 
 ---
 
@@ -105,18 +176,31 @@ export async function startServer(): Promise<void> {
 
 **Make sure both versions match!**
 
-### Step 4: Install Dependencies (if needed)
+### Step 4: Install Dependencies
 
 ```bash
+# Install root dependencies
 pnpm install
+
+# Install widget dependencies
+cd widget && pnpm install && cd ..
+
+# Install MCP dependencies
+cd mcp && pnpm install && cd ..
 ```
 
-### Step 5: Build the Package
+### Step 5: 🚨 BUILD THE PACKAGE (CRITICAL!)
 
-This builds both widget and MCP:
+**This is the step that was skipped in v0.1.18, causing a broken release!**
+
+Build both widget and MCP:
 
 ```bash
-pnpm build
+# Build widget
+pnpm widget:build
+
+# Build MCP server (CRITICAL - this compiles mcp/src/ to mcp/dist/)
+pnpm mcp:build
 ```
 
 **Expected output:**
@@ -139,7 +223,31 @@ pnpm build
   pnpm mcp:build
   ```
 
-### Step 6: Verify Build Output
+### Step 6: 🔍 VERIFY VERSION CONSISTENCY (MANDATORY!)
+
+**This verification would have caught the v0.1.18 bug!**
+
+```bash
+echo "=== Checking all three version locations ==="
+echo "package.json version:"
+grep '"version"' package.json
+
+echo -e "\nmcp/src/server.ts version:"
+grep "version: '0\\.1\\." mcp/src/server.ts
+
+echo -e "\nmcp/dist/server.js version (COMPILED - THIS IS WHAT USERS GET!):"
+grep "version: '0\\.1\\." mcp/dist/server.js
+
+echo -e "\n✅ ALL THREE MUST MATCH!"
+```
+
+**If `mcp/dist/server.js` shows a different version:**
+- ❌ **STOP! Do not proceed with publishing!**
+- The MCP server was not rebuilt after version bump
+- Run `pnpm mcp:build` again
+- Re-verify all three versions match
+
+### Step 7: Verify Build Output
 
 ```bash
 ls -lah widget/dist/
@@ -149,7 +257,7 @@ ls -lah mcp/dist/
 # Should show: server.js, tools/, convex-client.js, etc.
 ```
 
-### Step 7: Test Package Structure (Dry Run)
+### Step 8: Test Package Structure (Dry Run)
 
 ```bash
 npm publish --dry-run
@@ -165,12 +273,12 @@ npm publish --dry-run
 - If `widget/dist/` is missing: Run `pnpm widget:build`
 - If `mcp/dist/` is missing: Run `pnpm mcp:build`
 
-### Step 8: Commit Version Bump
+### Step 9: Commit Version Bump
 
 ```bash
-git add package.json mcp/src/server.ts widget/dist/ mcp/dist/
+git add package.json mcp/src/server.ts mcp/tsconfig.json pnpm-lock.yaml
 
-git commit -m "Bump annotated-feedback to v0.1.15
+git commit -m "Bump annotated-feedback to v0.1.XX
 
 Changes:
 - [Describe what changed in this release]
@@ -181,13 +289,13 @@ Changes:
 Co-Authored-By: Claude <noreply@anthropic.com>"
 ```
 
-### Step 9: Push to Remote
+### Step 10: Push to Remote
 
 ```bash
 git push
 ```
 
-### Step 10: Publish to NPM
+### Step 11: Publish to NPM
 
 ```bash
 npm publish --access public
@@ -201,17 +309,17 @@ npm publish --access public
 Publishing to https://registry.npmjs.org/ with tag latest and public access
 ```
 
-### Step 11: Verify Publication
+### Step 12: Verify Publication
 
 ```bash
 npm view annotated-feedback version
-# Should show: 0.1.15
+# Should show the new version
 
 npm view annotated-feedback
 # Review full package details
 ```
 
-### Step 12: Test Installation
+### Step 13: Test Installation
 
 In a test project:
 
@@ -296,14 +404,26 @@ git push
 
 ---
 
-## Version History Template
+## Version History
 
 When publishing, add an entry to this section:
 
-### v0.1.15 - YYYY-MM-DD
-- **Changes**: [Brief description]
-- **Fixes**: [Bug fixes]
-- **Breaking Changes**: [If any]
+### v0.1.19 - 2025-11-19
+- **Critical Fix**: Fixed broken MCP server from v0.1.18
+- **Root Cause**: v0.1.18 published with stale `mcp/dist/server.js` (compiled from v0.1.17 source)
+- **Fix**: Rebuilt MCP server with correct version, added version verification to publish guide
+- **Technical**: Updated tsconfig.json to exclude test files from MCP build
+
+### v0.1.18 - 2025-11-19 ⚠️ BROKEN - DO NOT USE
+- **Status**: Broken - MCP server fails to connect
+- **Issue**: Package published without rebuilding MCP server after version bump
+- **Result**: `package.json` shows v0.1.18 but `mcp/dist/server.js` contains v0.1.17
+- **Resolution**: Use v0.1.19 instead
+
+### v0.1.17 - [Date Unknown]
+- **Status**: Working (last known good version before v0.1.18)
+- **Issue**: Package was bloated (282 files, 13.7 MB instead of ~48 files, ~370 KB)
+- Likely included unnecessary files in publish
 
 ### v0.1.14 - 2025-10-22
 - **Changes**: Migrated screenshot capture from html2canvas to html-to-image
