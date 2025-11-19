@@ -2,18 +2,45 @@
 
 **Package Name**: `annotated-feedback`
 **NPM Registry**: https://www.npmjs.com/package/annotated-feedback
-**Current Version**: 0.1.19
+**Current Version**: 0.1.21
 
 ---
 
-## 🚨 CRITICAL: The Build Step
+## 🚨 CRITICAL LEARNINGS FROM v0.1.18-v0.1.21 INCIDENTS
 
+### Issue #1: Stale MCP Build (v0.1.18-v0.1.19)
 **Version 0.1.18 was broken because the MCP server was NOT rebuilt after bumping the version!**
 
 The published package contained:
 - ✅ `package.json` with version 0.1.18
 - ✅ `mcp/src/server.ts` with version 0.1.18
 - ❌ `mcp/dist/server.js` **still had version 0.1.17** (stale!)
+
+### Issue #2: Wrong Dependency Type (v0.1.18-v0.1.20)
+**Version 0.1.18 added @excalidraw/excalidraw to `dependencies`, breaking MCP server!**
+
+- @excalidraw has React peer dependencies
+- MCP server doesn't need @excalidraw
+- When users ran `npx annotated-feedback`, npm tried to install @excalidraw with unmet React peer deps → **MCP failed to connect**
+
+**Fix:** Use `optionalDependencies` instead of `dependencies` for @excalidraw (v0.1.21)
+
+### The Monorepo Dependency Challenge
+
+This package serves **two different user types**:
+1. **Widget users**: `npm install annotated-feedback` → need @excalidraw
+2. **MCP server users**: `npx annotated-feedback` → don't need @excalidraw
+
+**Solution (v0.1.21):**
+```json
+"optionalDependencies": {
+  "@excalidraw/excalidraw": "^0.18.0"
+},
+"peerDependenciesMeta": {
+  "react": { "optional": true },
+  "react-dom": { "optional": true }
+}
+```
 
 **ALWAYS verify all three versions match before publishing:**
 ```bash
@@ -104,8 +131,12 @@ npm view annotated-feedback version
 - [ ] Version bumped in `package.json`
 - [ ] Version bumped in `mcp/src/server.ts`
 - [ ] **CRITICAL: Version in `mcp/dist/server.js` matches package.json**
+- [ ] **CRITICAL: Dependencies configured correctly:**
+  - `dependencies`: Only MCP server deps (@modelcontextprotocol/sdk, zod) + widget deps (convex, html-to-image)
+  - `optionalDependencies`: @excalidraw/excalidraw
+  - `peerDependencies` + `peerDependenciesMeta`: React/React-DOM (optional: true)
 - [ ] Git working tree clean
-- [ ] Dry run shows ~48 files
+- [ ] Dry run shows correct file count
 
 ---
 
@@ -359,13 +390,40 @@ pnpm mcp:build
 
 ### Issue: Version mismatch between package.json and MCP server
 
+**Symptoms:** MCP server fails to connect, version reported incorrectly
+
+**Root Cause:** Forgot to rebuild MCP after bumping version in source
+
 **Solution:**
-- Check both files match:
+- Check all THREE locations (not just source!):
   ```bash
   cat package.json | grep version
   cat mcp/src/server.ts | grep version
+  cat mcp/dist/server.js | grep version  # ← COMPILED CODE (this is what users get!)
   ```
-- Update both to same version
+- If mismatch: `pnpm mcp:build` to rebuild
+- Verify all three match before publishing
+
+### Issue: MCP server fails with "missing peer dependencies" errors
+
+**Symptoms:** `npx annotated-feedback` fails with React peer dependency warnings/errors
+
+**Root Cause:** @excalidraw/excalidraw in `dependencies` instead of `optionalDependencies`
+
+**Solution:**
+- Move @excalidraw to `optionalDependencies`
+- Add React/React-DOM as optional peer dependencies:
+  ```json
+  "optionalDependencies": {
+    "@excalidraw/excalidraw": "^0.18.0"
+  },
+  "peerDependenciesMeta": {
+    "react": { "optional": true },
+    "react-dom": { "optional": true }
+  }
+  ```
+- Widget users still get @excalidraw (optional deps install when possible)
+- MCP users don't fail when @excalidraw can't install
 
 ### Issue: Missing dist/ folders in published package
 
@@ -408,22 +466,41 @@ git push
 
 When publishing, add an entry to this section:
 
-### v0.1.19 - 2025-11-19
-- **Critical Fix**: Fixed broken MCP server from v0.1.18
-- **Root Cause**: v0.1.18 published with stale `mcp/dist/server.js` (compiled from v0.1.17 source)
-- **Fix**: Rebuilt MCP server with correct version, added version verification to publish guide
-- **Technical**: Updated tsconfig.json to exclude test files from MCP build
+### v0.1.21 - 2025-11-19 ✅ CURRENT
+- **Critical Fix**: Proper dependency configuration for monorepo dual-purpose package
+- **Changes**:
+  - Moved @excalidraw/excalidraw to `optionalDependencies` (from `dependencies`)
+  - Added React/React-DOM as optional peer dependencies
+  - Widget users get @excalidraw installed automatically
+  - MCP server users don't fail on missing @excalidraw/React peer deps
+- **Result**: Both widget and MCP server work correctly
+- **Package**: 158 files, 12.2 MB (includes @excalidraw chunks)
+
+### v0.1.20 - 2025-11-19 ✅ MCP WORKS
+- **Partial Fix**: Removed @excalidraw from dependencies (restored v0.1.17 config)
+- **Issue**: Widget users wouldn't get @excalidraw (needed optionalDependencies instead)
+- **Result**: MCP server works, but widget dependency handling incomplete
+- **Resolution**: v0.1.21 adds proper optionalDependencies configuration
+
+### v0.1.19 - 2025-11-19 ⚠️ BROKEN - MCP FAILS
+- **Attempted Fix**: Rebuilt MCP server to fix v0.1.18 stale dist issue
+- **New Issue**: Still had @excalidraw in `dependencies` (inherited from v0.1.18)
+- **Result**: MCP server still fails due to React peer dependency issues
+- **Resolution**: Use v0.1.20 or v0.1.21 instead
 
 ### v0.1.18 - 2025-11-19 ⚠️ BROKEN - DO NOT USE
-- **Status**: Broken - MCP server fails to connect
-- **Issue**: Package published without rebuilding MCP server after version bump
-- **Result**: `package.json` shows v0.1.18 but `mcp/dist/server.js` contains v0.1.17
-- **Resolution**: Use v0.1.19 instead
+- **Status**: Double broken - stale build AND wrong dependencies
+- **Issue #1**: Package published without rebuilding MCP server after version bump
+- **Issue #2**: Added @excalidraw to `dependencies` (should be `optionalDependencies`)
+- **Result**:
+  - `package.json` shows v0.1.18 but `mcp/dist/server.js` contains v0.1.17
+  - MCP server fails on missing React peer dependencies
+- **Resolution**: Use v0.1.21 instead
 
 ### v0.1.17 - [Date Unknown]
 - **Status**: Working (last known good version before v0.1.18)
-- **Issue**: Package was bloated (282 files, 13.7 MB instead of ~48 files, ~370 KB)
-- Likely included unnecessary files in publish
+- **Note**: Not in git history - published manually
+- **Package**: 282 files, 13.7 MB (widget bundled @excalidraw, included fonts)
 
 ### v0.1.14 - 2025-10-22
 - **Changes**: Migrated screenshot capture from html2canvas to html-to-image
