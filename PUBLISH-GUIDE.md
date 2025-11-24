@@ -466,7 +466,36 @@ git push
 
 When publishing, add an entry to this section:
 
-### v0.1.21 - 2025-11-19 ✅ CURRENT
+### v0.1.24 - 2025-11-24 ✅ CURRENT
+- **Critical Fix**: Convex context isolation for apps with existing ConvexProvider
+- **Changes**:
+  - FeedbackProvider no longer wraps children with ConvexProvider
+  - Only FeedbackOverlayManager uses isolated feedback Convex context
+  - Prevents widget from overriding parent app's Convex queries
+- **Result**: Widget works alongside other Convex-powered features
+- **Package**: 48 files, 102.6 kB
+
+### v0.1.23 - 2025-11-24 ✅ SSR COMPATIBLE
+- **Major Compatibility Fix**: Next.js SSR and module resolution
+- **Changes**:
+  - Dynamic Excalidraw import (client-side only, no SSR issues)
+  - Added tsup config to externalize React/Convex/Excalidraw
+  - Prevents "Invalid hook call" errors from bundled React
+  - Code splitting improves initial bundle size
+- **Result**: Works with Next.js 15+ and SSR frameworks
+- **Package**: 48 files, 102.6 kB
+
+### v0.1.22 - 2025-11-24 ✅ FONT FIX
+- **Fix**: Missing font file errors in Next.js
+- **Changes**:
+  - Modified build script to strip @font-face rules from Excalidraw CSS
+  - Widget uses system fonts instead of Assistant font
+  - Removed font file dependencies entirely
+- **Result**: No more "Can't resolve './fonts/Assistant/*.woff2'" errors
+- **Package**: 48 files, 102.2 kB
+- **Note**: Deleted 100+ unused .mjs chunks from previous builds
+
+### v0.1.21 - 2025-11-19
 - **Critical Fix**: Proper dependency configuration for monorepo dual-purpose package
 - **Changes**:
   - Moved @excalidraw/excalidraw to `optionalDependencies` (from `dependencies`)

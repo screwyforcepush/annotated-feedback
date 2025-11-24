@@ -2821,6 +2821,7 @@ function FeedbackOverlay({ onClose, metadata }) {
                 borderRadius: "6px",
                 fontSize: "13px",
                 fontFamily: "system-ui, -apple-system, sans-serif",
+                color: "#000000",
                 outline: "none",
                 transition: "border-color 0.2s"
               },
