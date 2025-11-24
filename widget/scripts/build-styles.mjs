@@ -24,6 +24,22 @@ async function resolveExcalidrawCss() {
   return path.join(entryDir, 'index.css');
 }
 
+/**
+ * Strip @font-face rules from CSS content to avoid missing font file errors.
+ * Excalidraw uses Assistant font, but we don't need it for the feedback widget
+ * since the widget has its own text input (we only use Excalidraw's canvas).
+ */
+function stripFontFaceRules(cssContent) {
+  return cssContent.replace(/@font-face\s*\{[^}]*\}/g, '');
+}
+
+async function processExcalidrawCss(source, target) {
+  const content = await fs.readFile(source, 'utf-8');
+  const processed = stripFontFaceRules(content);
+  await fs.writeFile(target, processed, 'utf-8');
+  console.log(`[annotated-feedback] Processed Excalidraw styles (stripped @font-face) -> ${path.relative(rootDir, target)}`);
+}
+
 async function main() {
   try {
     await ensureDist();
@@ -34,7 +50,7 @@ async function main() {
 
     const excalidrawCssSource = await resolveExcalidrawCss();
     const excalidrawCssTarget = path.join(distDir, 'excalidraw.css');
-    await copyFileSafe(excalidrawCssSource, excalidrawCssTarget, 'Excalidraw styles');
+    await processExcalidrawCss(excalidrawCssSource, excalidrawCssTarget);
   } catch (error) {
     console.error('[annotated-feedback] Failed to build styles:', error);
     process.exitCode = 1;

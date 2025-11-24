@@ -1,6 +1,6 @@
 {
   "name": "annotated-feedback",
-  "version": "0.1.21",
+  "version": "0.1.22",
   "description": "Universal feedback widget with visual annotations - standalone Convex backend + widget + MCP",
   "private": false,
   "type": "module",

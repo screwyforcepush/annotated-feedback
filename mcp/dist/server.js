@@ -37,7 +37,7 @@ function registerFeedbackTools(server) {
  * Bootstrap and start the feedback MCP server over stdio transport.
  */
 export async function startServer() {
-    const server = new McpServer({ name: 'annotated-feedback', version: '0.1.21' }, {
+    const server = new McpServer({ name: 'annotated-feedback', version: '0.1.22' }, {
         instructions: 'Use the feedback tools to review, visually inspect, and update UX feedback.',
     });
     registerFeedbackTools(server);
