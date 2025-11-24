@@ -212,18 +212,20 @@ export function FeedbackProvider({
   }
 
   return (
-    <ConvexProvider client={convexClient}>
+    <>
       {children}
       {enabled && (
-        <FeedbackOverlayManager
-          enabled={isOpen}
-          onClose={() => setIsOpen(false)}
-          onToggle={() => setIsOpen((prev) => !prev)}
-          metadata={metadata}
-          convexUrl={convexUrl}
-          showButton={showButton}
-        />
+        <ConvexProvider client={convexClient}>
+          <FeedbackOverlayManager
+            enabled={isOpen}
+            onClose={() => setIsOpen(false)}
+            onToggle={() => setIsOpen((prev) => !prev)}
+            metadata={metadata}
+            convexUrl={convexUrl}
+            showButton={showButton}
+          />
+        </ConvexProvider>
       )}
-    </ConvexProvider>
+    </>
   );
 }

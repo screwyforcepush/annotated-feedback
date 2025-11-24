@@ -1,6 +1,6 @@
 {
   "name": "annotated-feedback-widget",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Universal feedback widget with visual annotation support",
   "main": "dist/index.js",
   "module": "dist/index.mjs",

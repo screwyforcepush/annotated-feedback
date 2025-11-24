@@ -3295,9 +3295,9 @@ function FeedbackProvider({
   if (!convexClient) {
     return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_jsx_runtime3.Fragment, { children });
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(import_react6.ConvexProvider, { client: convexClient, children: [
+  return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(import_jsx_runtime3.Fragment, { children: [
     children,
-    enabled && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
+    enabled && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_react6.ConvexProvider, { client: convexClient, children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
       FeedbackOverlayManager,
       {
         enabled: isOpen,
@@ -3307,7 +3307,7 @@ function FeedbackProvider({
         convexUrl,
         showButton
       }
-    )
+    ) })
   ] });
 }
 

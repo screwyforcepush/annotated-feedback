@@ -3257,9 +3257,9 @@ function FeedbackProvider({
   if (!convexClient) {
     return /* @__PURE__ */ jsx3(Fragment3, { children });
   }
-  return /* @__PURE__ */ jsxs3(ConvexProvider2, { client: convexClient, children: [
+  return /* @__PURE__ */ jsxs3(Fragment3, { children: [
     children,
-    enabled && /* @__PURE__ */ jsx3(
+    enabled && /* @__PURE__ */ jsx3(ConvexProvider2, { client: convexClient, children: /* @__PURE__ */ jsx3(
       FeedbackOverlayManager,
       {
         enabled: isOpen,
@@ -3269,7 +3269,7 @@ function FeedbackProvider({
         convexUrl,
         showButton
       }
-    )
+    ) })
   ] });
 }
 
