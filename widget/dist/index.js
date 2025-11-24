@@ -2426,7 +2426,6 @@ var import_react4 = require("convex/react");
 
 // src/FeedbackOverlay.tsx
 var import_react = __toESM(require("react"));
-var import_excalidraw = require("@excalidraw/excalidraw");
 var import_react2 = require("convex/react");
 
 // src/utils/pii-redaction.ts
@@ -2542,6 +2541,7 @@ var DEFAULT_SCREENSHOT_OPTIONS = {
 
 // src/FeedbackOverlay.tsx
 var import_jsx_runtime = require("react/jsx-runtime");
+var ExcalidrawComponent = null;
 function deriveSubmissionPath(metadata) {
   if (metadata?.path && metadata.path.trim().length > 0) {
     return metadata.path;
@@ -2602,7 +2602,21 @@ function FeedbackOverlay({ onClose, metadata }) {
   const [toast, setToast] = (0, import_react.useState)(null);
   const [viewportHeight, setViewportHeight] = (0, import_react.useState)(() => window.innerHeight);
   const [toolbarPosition, setToolbarPosition] = (0, import_react.useState)("top-left");
+  const [isExcalidrawLoaded, setIsExcalidrawLoaded] = (0, import_react.useState)(false);
   const excalidrawAPIRef = (0, import_react.useRef)(null);
+  (0, import_react.useEffect)(() => {
+    if (typeof window !== "undefined" && !ExcalidrawComponent) {
+      import("@excalidraw/excalidraw").then((mod) => {
+        ExcalidrawComponent = mod.Excalidraw;
+        setIsExcalidrawLoaded(true);
+      }).catch((err) => {
+        console.error("Failed to load Excalidraw:", err);
+        setToast({ message: "Failed to load drawing tools", type: "error" });
+      });
+    } else if (ExcalidrawComponent) {
+      setIsExcalidrawLoaded(true);
+    }
+  }, []);
   const generateUploadUrl = (0, import_react2.useMutation)("feedback:generateUploadUrl");
   const submitFeedback = (0, import_react2.useMutation)("feedback:submit");
   (0, import_react.useEffect)(() => {
@@ -2971,8 +2985,8 @@ function FeedbackOverlay({ onClose, metadata }) {
           overflow: "hidden",
           pointerEvents: "auto"
         },
-        children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-          import_excalidraw.Excalidraw,
+        children: isExcalidrawLoaded && ExcalidrawComponent ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+          ExcalidrawComponent,
           {
             excalidrawAPI: (api) => {
               excalidrawAPIRef.current = api;
@@ -2984,6 +2998,20 @@ function FeedbackOverlay({ onClose, metadata }) {
                 // Red stroke for visibility
               }
             }
+          }
+        ) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+          "div",
+          {
+            style: {
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              height: "100%",
+              fontSize: "16px",
+              color: "#6b7280",
+              fontFamily: "system-ui, -apple-system, sans-serif"
+            },
+            children: "Loading drawing tools..."
           }
         )
       }

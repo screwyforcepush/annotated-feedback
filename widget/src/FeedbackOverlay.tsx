@@ -15,13 +15,16 @@
  */
 
 import React, { useState, useRef, useCallback, useEffect } from 'react';
-import { Excalidraw } from '@excalidraw/excalidraw';
 
 type ExcalidrawImperativeAPI = {
   getSceneElements(): ReadonlyArray<any>;
   getAppState(): any;
   updateScene(scene: { elements: ReadonlyArray<any>; appState: any }): void;
 };
+
+// Dynamic import for Excalidraw to avoid SSR issues
+let ExcalidrawComponent: any = null;
+
 import { useMutation } from 'convex/react';
 import type {
   FeedbackMetadata,
@@ -142,8 +145,26 @@ export function FeedbackOverlay({ onClose, metadata }: FeedbackOverlayProps) {
   const [toast, setToast] = useState<ToastMessage | null>(null);
   const [viewportHeight, setViewportHeight] = useState(() => window.innerHeight);
   const [toolbarPosition, setToolbarPosition] = useState<ToolbarPosition>('top-left');
+  const [isExcalidrawLoaded, setIsExcalidrawLoaded] = useState(false);
 
   const excalidrawAPIRef = useRef<ExcalidrawImperativeAPI | null>(null);
+
+  // Load Excalidraw dynamically on client side only
+  useEffect(() => {
+    if (typeof window !== 'undefined' && !ExcalidrawComponent) {
+      import('@excalidraw/excalidraw')
+        .then((mod) => {
+          ExcalidrawComponent = mod.Excalidraw;
+          setIsExcalidrawLoaded(true);
+        })
+        .catch((err) => {
+          console.error('Failed to load Excalidraw:', err);
+          setToast({ message: 'Failed to load drawing tools', type: 'error' });
+        });
+    } else if (ExcalidrawComponent) {
+      setIsExcalidrawLoaded(true);
+    }
+  }, []);
 
   const generateUploadUrl = useMutation('feedback:generateUploadUrl' as any);
   const submitFeedback = useMutation('feedback:submit' as any);
@@ -548,17 +569,33 @@ export function FeedbackOverlay({ onClose, metadata }: FeedbackOverlayProps) {
           pointerEvents: 'auto',
         }}
       >
-        <Excalidraw
-          excalidrawAPI={(api) => {
-            excalidrawAPIRef.current = api;
-          }}
-          initialData={{
-            appState: {
-              viewBackgroundColor: 'transparent',
-              currentItemStrokeColor: '#ff0000', // Red stroke for visibility
-            },
-          }}
-        />
+        {isExcalidrawLoaded && ExcalidrawComponent ? (
+          <ExcalidrawComponent
+            excalidrawAPI={(api: ExcalidrawImperativeAPI) => {
+              excalidrawAPIRef.current = api;
+            }}
+            initialData={{
+              appState: {
+                viewBackgroundColor: 'transparent',
+                currentItemStrokeColor: '#ff0000', // Red stroke for visibility
+              },
+            }}
+          />
+        ) : (
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: '100%',
+              fontSize: '16px',
+              color: '#6b7280',
+              fontFamily: 'system-ui, -apple-system, sans-serif',
+            }}
+          >
+            Loading drawing tools...
+          </div>
+        )}
       </div>
 
       {toast && (
