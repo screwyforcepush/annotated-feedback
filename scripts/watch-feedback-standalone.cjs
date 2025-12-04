@@ -8,6 +8,7 @@ var __export = (target, all) => {
 
 // scripts/watch-feedback.ts
 var import_child_process = require("child_process");
+var import_fs = require("fs");
 
 // node_modules/convex/dist/esm/index.js
 var version = "1.29.3";
@@ -8085,57 +8086,129 @@ var _systemSchema = defineSchema({
 });
 
 // scripts/watch-feedback.ts
-var CONVEX_URL = process.argv[2];
-var PROJECT = process.argv[3];
-var COMMAND = process.argv[4] || 'claude -p "respond hello world"';
+// Load config file from same directory as script
+var config = {};
+try {
+  var fs = require("fs");
+  var path = require("path");
+  var configPath = path.join(__dirname, "config.json");
+  config = JSON.parse(fs.readFileSync(configPath, "utf-8"));
+} catch {
+  // Config file not found or invalid - that's okay, CLI args can provide values
+}
+// CLI args override config file values
+var CONVEX_URL = process.argv[2] || config.convexUrl;
+var PROJECT = process.argv[3] || config.project;
+var COMMAND = process.argv[4] || config.command || 'claude -p "respond hello world"';
+var PASSWORD = process.argv[5] || config.password;
 if (!CONVEX_URL || !PROJECT) {
   console.error(
-    "Usage: npx tsx watch-feedback.ts <convex_url> <project> [command]"
+    "Usage: node watch-feedback-standalone.cjs [convex_url] [project] [command] [password]"
   );
   console.error(
-    "Example: npx tsx watch-feedback.ts https://foo.convex.cloud my-project"
+    "  Or configure via config.json in the same directory"
+  );
+  console.error(
+    "Example: node watch-feedback-standalone.cjs https://foo.convex.cloud my-project"
   );
   process.exit(2);
 }
-var client = new ConvexClient(CONVEX_URL);
-var previousIds = /* @__PURE__ */ new Set();
-console.log(`Watching for feedback on project '${PROJECT}'...`);
-console.log(`Command: ${COMMAND}`);
+var DISCONNECT_RESTART_MS = 6e4;
+var RESTART_DELAY_MS = 1e3;
+var client = null;
+var unsubscribeFeedback = null;
+var unsubscribeConnection = null;
+var lastConnectedAt = Date.now();
+var processedIds = /* @__PURE__ */ new Set();
+function cleanup() {
+  unsubscribeFeedback?.();
+  unsubscribeConnection?.();
+  unsubscribeFeedback = null;
+  unsubscribeConnection = null;
+  client?.close();
+  client = null;
+}
+function scheduleRestart(reason) {
+  console.error(`Restarting watcher (${reason})...`);
+  cleanup();
+  setTimeout(startWatcher, RESTART_DELAY_MS);
+}
+function startWatcher() {
+  console.log(`Watching for feedback on project '${PROJECT}'...`);
+  console.log(`Command: ${COMMAND}`);
+  client = new ConvexClient(CONVEX_URL);
+  lastConnectedAt = Date.now();
+  unsubscribeConnection = client.subscribeToConnectionState((state) => {
+    if (state.isWebSocketConnected) {
+      lastConnectedAt = Date.now();
+      return;
+    }
+    if (Date.now() - lastConnectedAt > DISCONNECT_RESTART_MS) {
+      scheduleRestart("websocket disconnected too long");
+    }
+  });
+  unsubscribeFeedback = client.onUpdate(
+    anyApi.feedback.listByStatus,
+    { status: "pending", project: PROJECT },
+    (results) => {
+      for (const feedback of results ?? []) {
+        const id = feedback?._id;
+        if (!id || processedIds.has(id)) continue;
+        processedIds.add(id);
+        if (shouldRunForFeedback(feedback)) {
+          runCommand(id);
+        } else {
+          console.log(`skipping feedback ${id}: password not found in note`);
+        }
+      }
+    },
+    (error) => {
+      console.error("Subscription error:", error.message);
+      scheduleRestart("subscription error");
+    }
+  );
+}
+function shouldRunForFeedback(feedback) {
+  if (!PASSWORD) return true;
+  const note = typeof (feedback?.note) === "string" ? feedback.note : "";
+  return note.includes(PASSWORD);
+}
 function runCommand(feedbackId) {
   console.log(`received new feedback ${feedbackId}`);
-  const userShell = process.env.SHELL || "/bin/sh";
-  const fullCommand = `${COMMAND} ${feedbackId}`;
-  const child = (0, import_child_process.spawn)(userShell, ["-ic", fullCommand], {
+
+  const userShell = process.env.SHELL || "/bin/zsh";
+  const fullCommand = COMMAND.includes("{id}")
+    ? COMMAND.replace(/\{id\}/g, feedbackId)
+    : `${COMMAND} ${feedbackId}`;
+
+  const env = { ...process.env };
+  let args;
+
+  if (userShell.includes("zsh")) {
+    args = ["-ic", fullCommand];
+  } else if (userShell.includes("bash")) {
+    env.BASH_ENV = `${process.env.HOME}/.bashrc`;
+    args = ["-lc", fullCommand];
+  } else {
+    args = ["-c", fullCommand];
+  }
+
+  const child = (0, import_child_process.spawn)(userShell, args, {
     detached: true,
     stdio: "inherit",
-    env: process.env
+    env
   });
+
   child.on("error", (err) => {
     console.error(`failed to start command for ${feedbackId}:`, err.message);
   });
   console.log(`delegated feedback ${feedbackId} to PID: ${child.pid}`);
   child.unref();
 }
-var unsubscribe = client.onUpdate(
-  anyApi.feedback.listByStatus,
-  { status: "pending", project: PROJECT },
-  (results) => {
-    const currentIds = new Set(results?.map((r) => r._id) ?? []);
-    for (const id of currentIds) {
-      if (!previousIds.has(id)) {
-        runCommand(id);
-      }
-    }
-    previousIds = currentIds;
-  },
-  (error) => {
-    console.error("Subscription error:", error.message);
-  }
-);
+startWatcher();
 process.on("SIGINT", () => {
   console.log("\nShutting down...");
-  unsubscribe();
-  client.close();
+  cleanup();
   process.exit(0);
 });
 setInterval(() => {

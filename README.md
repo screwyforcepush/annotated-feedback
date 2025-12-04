@@ -127,6 +127,10 @@ claude mcp add annotated-feedback --scope user -- \
   npx -y annotated-feedback
 ```
 
+### Feedback Watcher
+
+Use `scripts/watch-feedback.ts` (or the standalone CJS version) to stream pending feedback and invoke a shell command per item. The example command `/action-feedback-item {id}` in the config uses the `claude-comms` helper from https://github.com/screwyforcepush/claude-comms.
+
 ## Development
 
 See individual package READMEs:
