@@ -431,13 +431,13 @@ export function FeedbackOverlay({ onClose, metadata }: FeedbackOverlayProps) {
           Feedback Mode
         </div>
 
-        <input
-          type="text"
+        <textarea
           value={note}
           onChange={(event) => setNote(event.target.value)}
           placeholder="Describe your change request"
-          maxLength={2000}
+          maxLength={100000}
           disabled={isSubmitting}
+          rows={1}
           style={{
             flex: 1,
             padding: '8px 12px',
@@ -447,7 +447,11 @@ export function FeedbackOverlay({ onClose, metadata }: FeedbackOverlayProps) {
             fontFamily: 'system-ui, -apple-system, sans-serif',
             color: '#000000',
             outline: 'none',
-            transition: 'border-color 0.2s',
+            transition: 'border-color 0.2s, height 0.2s',
+            resize: 'vertical',
+            minHeight: '36px',
+            maxHeight: '120px',
+            lineHeight: '1.4',
           }}
           onFocus={(event) => {
             event.target.style.borderColor = '#3b82f6';
