@@ -407,17 +407,18 @@ export function FeedbackOverlay({ onClose, metadata }: FeedbackOverlayProps) {
           top: 0,
           left: 0,
           width: '100vw',
-          height: `${TOOLBAR_HEIGHT}px`,
+          minHeight: `${TOOLBAR_HEIGHT}px`,
           zIndex: 10000,
           background: 'white',
           borderBottom: '1px solid #e5e7eb',
           padding: '12px 16px',
           display: 'flex',
           gap: '12px',
-          alignItems: 'center',
+          alignItems: 'flex-start',
           boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
           boxSizing: 'border-box',
           pointerEvents: 'auto',
+          overflow: 'visible',
         }}
       >
         <div
@@ -426,6 +427,7 @@ export function FeedbackOverlay({ onClose, metadata }: FeedbackOverlayProps) {
             fontWeight: 600,
             color: '#374151',
             fontFamily: 'system-ui, -apple-system, sans-serif',
+            paddingTop: '8px',
           }}
         >
           Feedback Mode
@@ -446,12 +448,15 @@ export function FeedbackOverlay({ onClose, metadata }: FeedbackOverlayProps) {
             fontSize: '13px',
             fontFamily: 'system-ui, -apple-system, sans-serif',
             color: '#000000',
+            background: 'white',
             outline: 'none',
             transition: 'border-color 0.2s, height 0.2s',
             resize: 'vertical',
             minHeight: '36px',
-            maxHeight: '120px',
+            maxHeight: '200px',
             lineHeight: '1.4',
+            position: 'relative',
+            zIndex: 1,
           }}
           onFocus={(event) => {
             event.target.style.borderColor = '#3b82f6';

@@ -447,17 +447,18 @@ function FeedbackOverlay({ onClose, metadata }) {
           top: 0,
           left: 0,
           width: "100vw",
-          height: `${TOOLBAR_HEIGHT}px`,
+          minHeight: `${TOOLBAR_HEIGHT}px`,
           zIndex: 1e4,
           background: "white",
           borderBottom: "1px solid #e5e7eb",
           padding: "12px 16px",
           display: "flex",
           gap: "12px",
-          alignItems: "center",
+          alignItems: "flex-start",
           boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
           boxSizing: "border-box",
-          pointerEvents: "auto"
+          pointerEvents: "auto",
+          overflow: "visible"
         },
         children: [
           /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
@@ -467,7 +468,8 @@ function FeedbackOverlay({ onClose, metadata }) {
                 fontSize: "14px",
                 fontWeight: 600,
                 color: "#374151",
-                fontFamily: "system-ui, -apple-system, sans-serif"
+                fontFamily: "system-ui, -apple-system, sans-serif",
+                paddingTop: "8px"
               },
               children: "Feedback Mode"
             }
@@ -489,12 +491,15 @@ function FeedbackOverlay({ onClose, metadata }) {
                 fontSize: "13px",
                 fontFamily: "system-ui, -apple-system, sans-serif",
                 color: "#000000",
+                background: "white",
                 outline: "none",
                 transition: "border-color 0.2s, height 0.2s",
                 resize: "vertical",
                 minHeight: "36px",
-                maxHeight: "120px",
-                lineHeight: "1.4"
+                maxHeight: "200px",
+                lineHeight: "1.4",
+                position: "relative",
+                zIndex: 1
               },
               onFocus: (event) => {
                 event.target.style.borderColor = "#3b82f6";

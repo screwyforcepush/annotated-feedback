@@ -62,7 +62,7 @@ function registerFeedbackTools(server: McpServer) {
  */
 export async function startServer(): Promise<void> {
   const server = new McpServer(
-    { name: 'annotated-feedback', version: '0.1.26' },
+    { name: 'annotated-feedback', version: '0.1.27' },
     {
       instructions:
         'Use the feedback tools to review, visually inspect, and update UX feedback.',
