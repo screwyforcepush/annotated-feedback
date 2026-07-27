@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@excalidraw/excalidraw':
-        specifier: ^0.18.0
-        version: 0.18.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@modelcontextprotocol/sdk':
         specifier: ^1.20.1
         version: 1.20.1
@@ -20,6 +17,12 @@ importers:
       html-to-image:
         specifier: ^1.11.11
         version: 1.11.13
+      react:
+        specifier: ^18.0.0 || ^19.0.0
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.0.0 || ^19.0.0
+        version: 18.3.1(react@18.3.1)
       zod:
         specifier: 3.25.76
         version: 3.25.76
@@ -30,6 +33,10 @@ importers:
       typescript:
         specifier: ^5
         version: 5.9.3
+    optionalDependencies:
+      '@excalidraw/excalidraw':
+        specifier: ^0.18.0
+        version: 0.18.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
 
 packages:
 
@@ -1539,9 +1546,11 @@ packages:
 
 snapshots:
 
-  '@babel/runtime@7.28.4': {}
+  '@babel/runtime@7.28.4':
+    optional: true
 
-  '@braintree/sanitize-url@6.0.2': {}
+  '@braintree/sanitize-url@6.0.2':
+    optional: true
 
   '@esbuild/aix-ppc64@0.25.4':
     optional: true
@@ -1658,10 +1667,13 @@ snapshots:
       - '@types/react-dom'
       - immer
       - supports-color
+    optional: true
 
-  '@excalidraw/laser-pointer@1.3.1': {}
+  '@excalidraw/laser-pointer@1.3.1':
+    optional: true
 
-  '@excalidraw/markdown-to-text@0.1.2': {}
+  '@excalidraw/markdown-to-text@0.1.2':
+    optional: true
 
   '@excalidraw/mermaid-to-excalidraw@1.1.2':
     dependencies:
@@ -1670,25 +1682,31 @@ snapshots:
       nanoid: 4.0.2
     transitivePeerDependencies:
       - supports-color
+    optional: true
 
-  '@excalidraw/random-username@1.1.0': {}
+  '@excalidraw/random-username@1.1.0':
+    optional: true
 
   '@floating-ui/core@1.7.3':
     dependencies:
       '@floating-ui/utils': 0.2.10
+    optional: true
 
   '@floating-ui/dom@1.7.4':
     dependencies:
       '@floating-ui/core': 1.7.3
       '@floating-ui/utils': 0.2.10
+    optional: true
 
   '@floating-ui/react-dom@2.1.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@floating-ui/dom': 1.7.4
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
+    optional: true
 
-  '@floating-ui/utils@0.2.10': {}
+  '@floating-ui/utils@0.2.10':
+    optional: true
 
   '@modelcontextprotocol/sdk@1.20.1':
     dependencies:
@@ -1710,14 +1728,17 @@ snapshots:
   '@radix-ui/primitive@1.0.0':
     dependencies:
       '@babel/runtime': 7.28.4
+    optional: true
 
-  '@radix-ui/primitive@1.1.1': {}
+  '@radix-ui/primitive@1.1.1':
+    optional: true
 
   '@radix-ui/react-arrow@1.1.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@radix-ui/react-primitive': 2.0.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
+    optional: true
 
   '@radix-ui/react-collection@1.0.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
@@ -1728,29 +1749,35 @@ snapshots:
       '@radix-ui/react-slot': 1.0.1(react@18.3.1)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
+    optional: true
 
   '@radix-ui/react-compose-refs@1.0.0(react@18.3.1)':
     dependencies:
       '@babel/runtime': 7.28.4
       react: 18.3.1
+    optional: true
 
   '@radix-ui/react-compose-refs@1.1.1(react@18.3.1)':
     dependencies:
       react: 18.3.1
+    optional: true
 
   '@radix-ui/react-context@1.0.0(react@18.3.1)':
     dependencies:
       '@babel/runtime': 7.28.4
       react: 18.3.1
+    optional: true
 
   '@radix-ui/react-context@1.1.1(react@18.3.1)':
     dependencies:
       react: 18.3.1
+    optional: true
 
   '@radix-ui/react-direction@1.0.0(react@18.3.1)':
     dependencies:
       '@babel/runtime': 7.28.4
       react: 18.3.1
+    optional: true
 
   '@radix-ui/react-dismissable-layer@1.1.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
@@ -1761,10 +1788,12 @@ snapshots:
       '@radix-ui/react-use-escape-keydown': 1.1.0(react@18.3.1)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
+    optional: true
 
   '@radix-ui/react-focus-guards@1.1.1(react@18.3.1)':
     dependencies:
       react: 18.3.1
+    optional: true
 
   '@radix-ui/react-focus-scope@1.1.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
@@ -1773,17 +1802,20 @@ snapshots:
       '@radix-ui/react-use-callback-ref': 1.1.0(react@18.3.1)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
+    optional: true
 
   '@radix-ui/react-id@1.0.0(react@18.3.1)':
     dependencies:
       '@babel/runtime': 7.28.4
       '@radix-ui/react-use-layout-effect': 1.0.0(react@18.3.1)
       react: 18.3.1
+    optional: true
 
   '@radix-ui/react-id@1.1.0(react@18.3.1)':
     dependencies:
       '@radix-ui/react-use-layout-effect': 1.1.0(react@18.3.1)
       react: 18.3.1
+    optional: true
 
   '@radix-ui/react-popover@1.1.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
@@ -1804,6 +1836,7 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
       react-remove-scroll: 2.7.1(react@18.3.1)
+    optional: true
 
   '@radix-ui/react-popper@1.2.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
@@ -1819,6 +1852,7 @@ snapshots:
       '@radix-ui/rect': 1.1.0
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
+    optional: true
 
   '@radix-ui/react-portal@1.1.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
@@ -1826,6 +1860,7 @@ snapshots:
       '@radix-ui/react-use-layout-effect': 1.1.0(react@18.3.1)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
+    optional: true
 
   '@radix-ui/react-presence@1.0.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
@@ -1834,6 +1869,7 @@ snapshots:
       '@radix-ui/react-use-layout-effect': 1.0.0(react@18.3.1)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
+    optional: true
 
   '@radix-ui/react-presence@1.1.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
@@ -1841,6 +1877,7 @@ snapshots:
       '@radix-ui/react-use-layout-effect': 1.1.0(react@18.3.1)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
+    optional: true
 
   '@radix-ui/react-primitive@1.0.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
@@ -1848,12 +1885,14 @@ snapshots:
       '@radix-ui/react-slot': 1.0.1(react@18.3.1)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
+    optional: true
 
   '@radix-ui/react-primitive@2.0.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@radix-ui/react-slot': 1.1.2(react@18.3.1)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
+    optional: true
 
   '@radix-ui/react-roving-focus@1.0.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
@@ -1869,17 +1908,20 @@ snapshots:
       '@radix-ui/react-use-controllable-state': 1.0.0(react@18.3.1)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
+    optional: true
 
   '@radix-ui/react-slot@1.0.1(react@18.3.1)':
     dependencies:
       '@babel/runtime': 7.28.4
       '@radix-ui/react-compose-refs': 1.0.0(react@18.3.1)
       react: 18.3.1
+    optional: true
 
   '@radix-ui/react-slot@1.1.2(react@18.3.1)':
     dependencies:
       '@radix-ui/react-compose-refs': 1.1.1(react@18.3.1)
       react: 18.3.1
+    optional: true
 
   '@radix-ui/react-tabs@1.0.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
@@ -1894,76 +1936,94 @@ snapshots:
       '@radix-ui/react-use-controllable-state': 1.0.0(react@18.3.1)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
+    optional: true
 
   '@radix-ui/react-use-callback-ref@1.0.0(react@18.3.1)':
     dependencies:
       '@babel/runtime': 7.28.4
       react: 18.3.1
+    optional: true
 
   '@radix-ui/react-use-callback-ref@1.1.0(react@18.3.1)':
     dependencies:
       react: 18.3.1
+    optional: true
 
   '@radix-ui/react-use-controllable-state@1.0.0(react@18.3.1)':
     dependencies:
       '@babel/runtime': 7.28.4
       '@radix-ui/react-use-callback-ref': 1.0.0(react@18.3.1)
       react: 18.3.1
+    optional: true
 
   '@radix-ui/react-use-controllable-state@1.1.0(react@18.3.1)':
     dependencies:
       '@radix-ui/react-use-callback-ref': 1.1.0(react@18.3.1)
       react: 18.3.1
+    optional: true
 
   '@radix-ui/react-use-escape-keydown@1.1.0(react@18.3.1)':
     dependencies:
       '@radix-ui/react-use-callback-ref': 1.1.0(react@18.3.1)
       react: 18.3.1
+    optional: true
 
   '@radix-ui/react-use-layout-effect@1.0.0(react@18.3.1)':
     dependencies:
       '@babel/runtime': 7.28.4
       react: 18.3.1
+    optional: true
 
   '@radix-ui/react-use-layout-effect@1.1.0(react@18.3.1)':
     dependencies:
       react: 18.3.1
+    optional: true
 
   '@radix-ui/react-use-rect@1.1.0(react@18.3.1)':
     dependencies:
       '@radix-ui/rect': 1.1.0
       react: 18.3.1
+    optional: true
 
   '@radix-ui/react-use-size@1.1.0(react@18.3.1)':
     dependencies:
       '@radix-ui/react-use-layout-effect': 1.1.0(react@18.3.1)
       react: 18.3.1
+    optional: true
 
-  '@radix-ui/rect@1.1.0': {}
+  '@radix-ui/rect@1.1.0':
+    optional: true
 
-  '@types/d3-scale-chromatic@3.1.0': {}
+  '@types/d3-scale-chromatic@3.1.0':
+    optional: true
 
   '@types/d3-scale@4.0.9':
     dependencies:
       '@types/d3-time': 3.0.4
+    optional: true
 
-  '@types/d3-time@3.0.4': {}
+  '@types/d3-time@3.0.4':
+    optional: true
 
   '@types/debug@4.1.12':
     dependencies:
       '@types/ms': 2.1.0
+    optional: true
 
   '@types/mdast@3.0.15':
     dependencies:
       '@types/unist': 2.0.11
+    optional: true
 
-  '@types/ms@2.1.0': {}
+  '@types/ms@2.1.0':
+    optional: true
 
   '@types/node@20.19.22':
     dependencies:
       undici-types: 6.21.0
 
-  '@types/unist@2.0.11': {}
+  '@types/unist@2.0.11':
+    optional: true
 
   accepts@2.0.0:
     dependencies:
@@ -1981,12 +2041,15 @@ snapshots:
     dependencies:
       normalize-path: 3.0.0
       picomatch: 2.3.1
+    optional: true
 
   aria-hidden@1.2.6:
     dependencies:
       tslib: 2.8.1
+    optional: true
 
-  binary-extensions@2.3.0: {}
+  binary-extensions@2.3.0:
+    optional: true
 
   body-parser@2.2.0:
     dependencies:
@@ -2005,8 +2068,10 @@ snapshots:
   braces@3.0.3:
     dependencies:
       fill-range: 7.1.1
+    optional: true
 
-  browser-fs-access@0.29.1: {}
+  browser-fs-access@0.29.1:
+    optional: true
 
   bytes@3.1.2: {}
 
@@ -2020,9 +2085,11 @@ snapshots:
       call-bind-apply-helpers: 1.0.2
       get-intrinsic: 1.3.0
 
-  canvas-roundrect-polyfill@0.0.1: {}
+  canvas-roundrect-polyfill@0.0.1:
+    optional: true
 
-  character-entities@2.0.2: {}
+  character-entities@2.0.2:
+    optional: true
 
   chokidar@3.6.0:
     dependencies:
@@ -2035,12 +2102,16 @@ snapshots:
       readdirp: 3.6.0
     optionalDependencies:
       fsevents: 2.3.3
+    optional: true
 
-  clsx@1.1.1: {}
+  clsx@1.1.1:
+    optional: true
 
-  commander@7.2.0: {}
+  commander@7.2.0:
+    optional: true
 
-  commander@8.3.0: {}
+  commander@8.3.0:
+    optional: true
 
   content-disposition@1.0.0:
     dependencies:
@@ -2067,12 +2138,15 @@ snapshots:
   cose-base@1.0.3:
     dependencies:
       layout-base: 1.0.2
+    optional: true
 
-  crc-32@0.3.0: {}
+  crc-32@0.3.0:
+    optional: true
 
   cross-env@7.0.3:
     dependencies:
       cross-spawn: 7.0.6
+    optional: true
 
   cross-spawn@7.0.6:
     dependencies:
@@ -2084,18 +2158,23 @@ snapshots:
     dependencies:
       cose-base: 1.0.3
       cytoscape: 3.33.1
+    optional: true
 
-  cytoscape@3.33.1: {}
+  cytoscape@3.33.1:
+    optional: true
 
   d3-array@2.12.1:
     dependencies:
       internmap: 1.0.1
+    optional: true
 
   d3-array@3.2.4:
     dependencies:
       internmap: 2.0.3
+    optional: true
 
-  d3-axis@3.0.0: {}
+  d3-axis@3.0.0:
+    optional: true
 
   d3-brush@3.0.0:
     dependencies:
@@ -2104,77 +2183,99 @@ snapshots:
       d3-interpolate: 3.0.1
       d3-selection: 3.0.0
       d3-transition: 3.0.1(d3-selection@3.0.0)
+    optional: true
 
   d3-chord@3.0.1:
     dependencies:
       d3-path: 3.1.0
+    optional: true
 
-  d3-color@3.1.0: {}
+  d3-color@3.1.0:
+    optional: true
 
   d3-contour@4.0.2:
     dependencies:
       d3-array: 3.2.4
+    optional: true
 
   d3-delaunay@6.0.4:
     dependencies:
       delaunator: 5.0.1
+    optional: true
 
-  d3-dispatch@3.0.1: {}
+  d3-dispatch@3.0.1:
+    optional: true
 
   d3-drag@3.0.0:
     dependencies:
       d3-dispatch: 3.0.1
       d3-selection: 3.0.0
+    optional: true
 
   d3-dsv@3.0.1:
     dependencies:
       commander: 7.2.0
       iconv-lite: 0.6.3
       rw: 1.3.3
+    optional: true
 
-  d3-ease@3.0.1: {}
+  d3-ease@3.0.1:
+    optional: true
 
   d3-fetch@3.0.1:
     dependencies:
       d3-dsv: 3.0.1
+    optional: true
 
   d3-force@3.0.0:
     dependencies:
       d3-dispatch: 3.0.1
       d3-quadtree: 3.0.1
       d3-timer: 3.0.1
+    optional: true
 
-  d3-format@3.1.0: {}
+  d3-format@3.1.0:
+    optional: true
 
   d3-geo@3.1.1:
     dependencies:
       d3-array: 3.2.4
+    optional: true
 
-  d3-hierarchy@3.1.2: {}
+  d3-hierarchy@3.1.2:
+    optional: true
 
   d3-interpolate@3.0.1:
     dependencies:
       d3-color: 3.1.0
+    optional: true
 
-  d3-path@1.0.9: {}
+  d3-path@1.0.9:
+    optional: true
 
-  d3-path@3.1.0: {}
+  d3-path@3.1.0:
+    optional: true
 
-  d3-polygon@3.0.1: {}
+  d3-polygon@3.0.1:
+    optional: true
 
-  d3-quadtree@3.0.1: {}
+  d3-quadtree@3.0.1:
+    optional: true
 
-  d3-random@3.0.1: {}
+  d3-random@3.0.1:
+    optional: true
 
   d3-sankey@0.12.3:
     dependencies:
       d3-array: 2.12.1
       d3-shape: 1.3.7
+    optional: true
 
   d3-scale-chromatic@3.1.0:
     dependencies:
       d3-color: 3.1.0
       d3-interpolate: 3.0.1
+    optional: true
 
   d3-scale@4.0.2:
     dependencies:
@@ -2183,26 +2284,33 @@ snapshots:
       d3-interpolate: 3.0.1
       d3-time: 3.1.0
       d3-time-format: 4.1.0
+    optional: true
 
-  d3-selection@3.0.0: {}
+  d3-selection@3.0.0:
+    optional: true
 
   d3-shape@1.3.7:
     dependencies:
       d3-path: 1.0.9
+    optional: true
 
   d3-shape@3.2.0:
     dependencies:
       d3-path: 3.1.0
+    optional: true
 
   d3-time-format@4.1.0:
     dependencies:
       d3-time: 3.1.0
+    optional: true
 
   d3-time@3.1.0:
     dependencies:
       d3-array: 3.2.4
+    optional: true
 
-  d3-timer@3.0.1: {}
+  d3-timer@3.0.1:
+    optional: true
 
   d3-transition@3.0.1(d3-selection@3.0.0):
     dependencies:
@@ -2212,6 +2320,7 @@ snapshots:
       d3-interpolate: 3.0.1
       d3-selection: 3.0.0
       d3-timer: 3.0.1
+    optional: true
 
   d3-zoom@3.0.0:
     dependencies:
@@ -2220,6 +2329,7 @@ snapshots:
       d3-interpolate: 3.0.1
       d3-selection: 3.0.0
       d3-transition: 3.0.1(d3-selection@3.0.0)
+    optional: true
 
   d3@7.9.0:
     dependencies:
@@ -2253,13 +2363,16 @@ snapshots:
       d3-timer: 3.0.1
       d3-transition: 3.0.1(d3-selection@3.0.0)
       d3-zoom: 3.0.0
+    optional: true
 
   dagre-d3-es@7.0.10:
     dependencies:
       d3: 7.9.0
       lodash-es: 4.17.21
+    optional: true
 
-  dayjs@1.11.19: {}
+  dayjs@1.11.19:
+    optional: true
 
   debug@4.4.3:
     dependencies:
@@ -2268,20 +2381,26 @@ snapshots:
   decode-named-character-reference@1.2.0:
     dependencies:
       character-entities: 2.0.2
+    optional: true
 
   delaunator@5.0.1:
     dependencies:
       robust-predicates: 3.0.2
+    optional: true
 
   depd@2.0.0: {}
 
-  dequal@2.0.3: {}
+  dequal@2.0.3:
+    optional: true
 
-  detect-node-es@1.1.0: {}
+  detect-node-es@1.1.0:
+    optional: true
 
-  diff@5.2.0: {}
+  diff@5.2.0:
+    optional: true
 
-  dompurify@3.1.6: {}
+  dompurify@3.1.6:
+    optional: true
 
   dunder-proto@1.0.1:
     dependencies:
@@ -2291,7 +2410,8 @@ snapshots:
 
   ee-first@1.1.1: {}
 
-  elkjs@0.9.3: {}
+  elkjs@0.9.3:
+    optional: true
 
   encodeurl@2.0.0: {}
 
@@ -2303,7 +2423,8 @@ snapshots:
     dependencies:
       es-errors: 1.3.0
 
-  es6-promise-pool@2.5.0: {}
+  es6-promise-pool@2.5.0:
+    optional: true
 
   esbuild@0.25.4:
     optionalDependencies:
@@ -2386,6 +2507,7 @@ snapshots:
   fill-range@7.1.1:
     dependencies:
       to-regex-range: 5.0.1
+    optional: true
 
   finalhandler@2.1.0:
     dependencies:
@@ -2400,7 +2522,8 @@ snapshots:
 
   forwarded@0.2.0: {}
 
-  fractional-indexing@3.2.0: {}
+  fractional-indexing@3.2.0:
+    optional: true
 
   fresh@2.0.0: {}
 
@@ -2409,7 +2532,8 @@ snapshots:
 
   function-bind@1.1.2: {}
 
-  fuzzy@0.1.3: {}
+  fuzzy@0.1.3:
+    optional: true
 
   get-intrinsic@1.3.0:
     dependencies:
@@ -2424,7 +2548,8 @@ snapshots:
       hasown: 2.0.2
       math-intrinsics: 1.1.0
 
-  get-nonce@1.0.1: {}
+  get-nonce@1.0.1:
+    optional: true
 
   get-proto@1.0.1:
     dependencies:
@@ -2434,12 +2559,15 @@ snapshots:
   glob-parent@5.1.2:
     dependencies:
       is-glob: 4.0.3
+    optional: true
 
-  glur@1.1.2: {}
+  glur@1.1.2:
+    optional: true
 
   gopd@1.2.0: {}
 
-  hachure-fill@0.5.2: {}
+  hachure-fill@0.5.2:
+    optional: true
 
   has-symbols@1.1.0: {}
 
@@ -2468,28 +2596,36 @@ snapshots:
   image-blob-reduce@3.0.1:
     dependencies:
       pica: 7.1.1
+    optional: true
 
-  immutable@4.3.7: {}
+  immutable@4.3.7:
+    optional: true
 
   inherits@2.0.4: {}
 
-  internmap@1.0.1: {}
+  internmap@1.0.1:
+    optional: true
 
-  internmap@2.0.3: {}
+  internmap@2.0.3:
+    optional: true
 
   ipaddr.js@1.9.1: {}
 
   is-binary-path@2.1.0:
     dependencies:
       binary-extensions: 2.3.0
+    optional: true
 
-  is-extglob@2.1.1: {}
+  is-extglob@2.1.1:
+    optional: true
 
   is-glob@4.0.3:
     dependencies:
       is-extglob: 2.1.1
+    optional: true
 
-  is-number@7.0.0: {}
+  is-number@7.0.0:
+    optional: true
 
   is-promise@4.0.0: {}
 
@@ -2499,10 +2635,12 @@ snapshots:
     dependencies:
       jotai: 2.11.0(react@18.3.1)
       react: 18.3.1
+    optional: true
 
   jotai@2.11.0(react@18.3.1):
     optionalDependencies:
       react: 18.3.1
+    optional: true
 
   js-tokens@4.0.0: {}
 
@@ -2511,18 +2649,25 @@ snapshots:
   katex@0.16.25:
     dependencies:
       commander: 8.3.0
+    optional: true
 
-  khroma@2.1.0: {}
+  khroma@2.1.0:
+    optional: true
 
-  kleur@4.1.5: {}
+  kleur@4.1.5:
+    optional: true
 
-  layout-base@1.0.2: {}
+  layout-base@1.0.2:
+    optional: true
 
-  lodash-es@4.17.21: {}
+  lodash-es@4.17.21:
+    optional: true
 
-  lodash.debounce@4.0.8: {}
+  lodash.debounce@4.0.8:
+    optional: true
 
-  lodash.throttle@4.1.1: {}
+  lodash.throttle@4.1.1:
+    optional: true
 
   loose-envify@1.4.0:
     dependencies:
@@ -2546,10 +2691,12 @@ snapshots:
       uvu: 0.5.6
     transitivePeerDependencies:
       - supports-color
+    optional: true
 
   mdast-util-to-string@3.2.0:
     dependencies:
       '@types/mdast': 3.0.15
+    optional: true
 
   media-typer@1.1.0: {}
 
@@ -2579,6 +2726,7 @@ snapshots:
       web-worker: 1.5.0
     transitivePeerDependencies:
       - supports-color
+    optional: true
 
   micromark-core-commonmark@1.1.0:
     dependencies:
@@ -2598,12 +2746,14 @@ snapshots:
       micromark-util-symbol: 1.1.0
       micromark-util-types: 1.1.0
       uvu: 0.5.6
+    optional: true
 
   micromark-factory-destination@1.1.0:
     dependencies:
       micromark-util-character: 1.2.0
       micromark-util-symbol: 1.1.0
       micromark-util-types: 1.1.0
+    optional: true
 
   micromark-factory-label@1.1.0:
     dependencies:
@@ -2611,11 +2761,13 @@ snapshots:
       micromark-util-symbol: 1.1.0
       micromark-util-types: 1.1.0
       uvu: 0.5.6
+    optional: true
 
   micromark-factory-space@1.1.0:
     dependencies:
       micromark-util-character: 1.2.0
       micromark-util-types: 1.1.0
+    optional: true
 
   micromark-factory-title@1.1.0:
     dependencies:
@@ -2623,6 +2775,7 @@ snapshots:
       micromark-util-character: 1.2.0
       micromark-util-symbol: 1.1.0
       micromark-util-types: 1.1.0
+    optional: true
 
   micromark-factory-whitespace@1.1.0:
     dependencies:
@@ -2630,30 +2783,36 @@ snapshots:
       micromark-util-character: 1.2.0
       micromark-util-symbol: 1.1.0
       micromark-util-types: 1.1.0
+    optional: true
 
   micromark-util-character@1.2.0:
     dependencies:
       micromark-util-symbol: 1.1.0
       micromark-util-types: 1.1.0
+    optional: true
 
   micromark-util-chunked@1.1.0:
     dependencies:
       micromark-util-symbol: 1.1.0
+    optional: true
 
   micromark-util-classify-character@1.1.0:
     dependencies:
       micromark-util-character: 1.2.0
       micromark-util-symbol: 1.1.0
       micromark-util-types: 1.1.0
+    optional: true
 
   micromark-util-combine-extensions@1.1.0:
     dependencies:
       micromark-util-chunked: 1.1.0
       micromark-util-types: 1.1.0
+    optional: true
 
   micromark-util-decode-numeric-character-reference@1.1.0:
     dependencies:
       micromark-util-symbol: 1.1.0
+    optional: true
 
   micromark-util-decode-string@1.1.0:
     dependencies:
@@ -2661,24 +2820,30 @@ snapshots:
       micromark-util-character: 1.2.0
       micromark-util-decode-numeric-character-reference: 1.1.0
       micromark-util-symbol: 1.1.0
+    optional: true
 
-  micromark-util-encode@1.1.0: {}
+  micromark-util-encode@1.1.0:
+    optional: true
 
-  micromark-util-html-tag-name@1.2.0: {}
+  micromark-util-html-tag-name@1.2.0:
+    optional: true
 
   micromark-util-normalize-identifier@1.1.0:
     dependencies:
       micromark-util-symbol: 1.1.0
+    optional: true
 
   micromark-util-resolve-all@1.1.0:
     dependencies:
       micromark-util-types: 1.1.0
+    optional: true
 
   micromark-util-sanitize-uri@1.2.0:
     dependencies:
       micromark-util-character: 1.2.0
       micromark-util-encode: 1.1.0
       micromark-util-symbol: 1.1.0
+    optional: true
 
   micromark-util-subtokenize@1.1.0:
     dependencies:
@@ -2686,10 +2851,13 @@ snapshots:
       micromark-util-symbol: 1.1.0
       micromark-util-types: 1.1.0
       uvu: 0.5.6
+    optional: true
 
-  micromark-util-symbol@1.1.0: {}
+  micromark-util-symbol@1.1.0:
+    optional: true
 
-  micromark-util-types@1.1.0: {}
+  micromark-util-types@1.1.0:
+    optional: true
 
   micromark@3.2.0:
     dependencies:
@@ -2712,6 +2880,7 @@ snapshots:
       uvu: 0.5.6
     transitivePeerDependencies:
       - supports-color
+    optional: true
 
   mime-db@1.54.0: {}
 
@@ -2719,7 +2888,8 @@ snapshots:
     dependencies:
       mime-db: 1.54.0
 
-  mri@1.2.0: {}
+  mri@1.2.0:
+    optional: true
 
   ms@2.1.3: {}
 
@@ -2727,16 +2897,21 @@ snapshots:
     dependencies:
       glur: 1.1.2
       object-assign: 4.1.1
+    optional: true
 
-  nanoid@3.3.3: {}
+  nanoid@3.3.3:
+    optional: true
 
-  nanoid@4.0.2: {}
+  nanoid@4.0.2:
+    optional: true
 
   negotiator@1.0.0: {}
 
-  non-layered-tidy-tree-layout@2.0.2: {}
+  non-layered-tidy-tree-layout@2.0.2:
+    optional: true
 
-  normalize-path@3.0.0: {}
+  normalize-path@3.0.0:
+    optional: true
 
   object-assign@4.1.1: {}
 
@@ -2750,19 +2925,23 @@ snapshots:
     dependencies:
       wrappy: 1.0.2
 
-  open-color@1.9.1: {}
+  open-color@1.9.1:
+    optional: true
 
-  pako@2.0.3: {}
+  pako@2.0.3:
+    optional: true
 
   parseurl@1.3.3: {}
 
-  path-data-parser@0.1.0: {}
+  path-data-parser@0.1.0:
+    optional: true
 
   path-key@3.1.1: {}
 
   path-to-regexp@8.3.0: {}
 
-  perfect-freehand@1.2.0: {}
+  perfect-freehand@1.2.0:
+    optional: true
 
   pica@7.1.1:
     dependencies:
@@ -2771,30 +2950,38 @@ snapshots:
       multimath: 2.0.0
       object-assign: 4.1.1
       webworkify: 1.5.0
+    optional: true
 
-  picomatch@2.3.1: {}
+  picomatch@2.3.1:
+    optional: true
 
   pkce-challenge@5.0.0: {}
 
-  png-chunk-text@1.0.0: {}
+  png-chunk-text@1.0.0:
+    optional: true
 
   png-chunks-encode@1.0.0:
     dependencies:
       crc-32: 0.3.0
       sliced: 1.0.1
+    optional: true
 
   png-chunks-extract@1.0.0:
     dependencies:
       crc-32: 0.3.0
+    optional: true
 
-  points-on-curve@0.2.0: {}
+  points-on-curve@0.2.0:
+    optional: true
 
-  points-on-curve@1.0.1: {}
+  points-on-curve@1.0.1:
+    optional: true
 
   points-on-path@0.2.1:
     dependencies:
       path-data-parser: 0.1.0
       points-on-curve: 0.2.0
+    optional: true
 
   prettier@3.6.2: {}
 
@@ -2805,7 +2992,8 @@ snapshots:
 
   punycode@2.3.1: {}
 
-  pwacompat@2.0.17: {}
+  pwacompat@2.0.17:
+    optional: true
 
   qs@6.14.0:
     dependencies:
@@ -2831,6 +3019,7 @@ snapshots:
       react: 18.3.1
       react-style-singleton: 2.2.3(react@18.3.1)
       tslib: 2.8.1
+    optional: true
 
   react-remove-scroll@2.7.1(react@18.3.1):
     dependencies:
@@ -2840,12 +3029,14 @@ snapshots:
       tslib: 2.8.1
       use-callback-ref: 1.3.3(react@18.3.1)
       use-sidecar: 1.1.3(react@18.3.1)
+    optional: true
 
   react-style-singleton@2.2.3(react@18.3.1):
     dependencies:
       get-nonce: 1.0.1
       react: 18.3.1
       tslib: 2.8.1
+    optional: true
 
   react@18.3.1:
     dependencies:
@@ -2854,8 +3045,10 @@ snapshots:
   readdirp@3.6.0:
     dependencies:
       picomatch: 2.3.1
+    optional: true
 
-  robust-predicates@3.0.2: {}
+  robust-predicates@3.0.2:
+    optional: true
 
   roughjs@4.6.4:
     dependencies:
@@ -2863,6 +3056,7 @@ snapshots:
       path-data-parser: 0.1.0
       points-on-curve: 0.2.0
       points-on-path: 0.2.1
+    optional: true
 
   router@2.2.0:
     dependencies:
@@ -2874,11 +3068,13 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  rw@1.3.3: {}
+  rw@1.3.3:
+    optional: true
 
   sade@1.8.1:
     dependencies:
       mri: 1.2.0
+    optional: true
 
   safe-buffer@5.2.1: {}
 
@@ -2889,6 +3085,7 @@ snapshots:
       chokidar: 3.6.0
       immutable: 4.3.7
       source-map-js: 1.2.1
+    optional: true
 
   scheduler@0.23.2:
     dependencies:
@@ -2955,25 +3152,31 @@ snapshots:
       side-channel-map: 1.0.1
       side-channel-weakmap: 1.0.2
 
-  sliced@1.0.1: {}
+  sliced@1.0.1:
+    optional: true
 
-  source-map-js@1.2.1: {}
+  source-map-js@1.2.1:
+    optional: true
 
   statuses@2.0.1: {}
 
   statuses@2.0.2: {}
 
-  stylis@4.3.6: {}
+  stylis@4.3.6:
+    optional: true
 
   to-regex-range@5.0.1:
     dependencies:
       is-number: 7.0.0
+    optional: true
 
   toidentifier@1.0.1: {}
 
-  ts-dedent@2.2.0: {}
+  ts-dedent@2.2.0:
+    optional: true
 
-  tslib@2.8.1: {}
+  tslib@2.8.1:
+    optional: true
 
   tunnel-rat@0.1.2(react@18.3.1):
     dependencies:
@@ -2982,6 +3185,7 @@ snapshots:
       - '@types/react'
       - immer
       - react
+    optional: true
 
   type-is@2.0.1:
     dependencies:
@@ -2996,6 +3200,7 @@ snapshots:
   unist-util-stringify-position@3.0.3:
     dependencies:
       '@types/unist': 2.0.11
+    optional: true
 
   unpipe@1.0.0: {}
 
@@ -3007,18 +3212,22 @@ snapshots:
     dependencies:
       react: 18.3.1
       tslib: 2.8.1
+    optional: true
 
   use-sidecar@1.1.3(react@18.3.1):
     dependencies:
       detect-node-es: 1.1.0
       react: 18.3.1
       tslib: 2.8.1
+    optional: true
 
   use-sync-external-store@1.6.0(react@18.3.1):
     dependencies:
       react: 18.3.1
+    optional: true
 
-  uuid@9.0.1: {}
+  uuid@9.0.1:
+    optional: true
 
   uvu@0.5.6:
     dependencies:
@@ -3026,12 +3235,15 @@ snapshots:
       diff: 5.2.0
       kleur: 4.1.5
       sade: 1.8.1
+    optional: true
 
   vary@1.1.2: {}
 
-  web-worker@1.5.0: {}
+  web-worker@1.5.0:
+    optional: true
 
-  webworkify@1.5.0: {}
+  webworkify@1.5.0:
+    optional: true
 
   which@2.0.2:
     dependencies:
@@ -3050,3 +3262,4 @@ snapshots:
       use-sync-external-store: 1.6.0(react@18.3.1)
     optionalDependencies:
       react: 18.3.1
+    optional: true

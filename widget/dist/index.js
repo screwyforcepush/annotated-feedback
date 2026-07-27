@@ -125,6 +125,12 @@ var SENSITIVE_FIELD_SELECTORS = [
 
 // src/utils/screenshot.ts
 var import_html_to_image = require("html-to-image");
+function isCapturableNode(node) {
+  if (node.tagName === "VIDEO" && !node.currentSrc && !node.poster) {
+    return false;
+  }
+  return true;
+}
 async function captureScreenshot(targetElement = document.body, options = {}) {
   const mergedOptions = {
     ...DEFAULT_SCREENSHOT_OPTIONS,
@@ -146,6 +152,7 @@ async function captureScreenshot(targetElement = document.body, options = {}) {
     // null -> undefined for proper transparency
     cacheBust: true,
     // Prevent CORS caching issues
+    filter: isCapturableNode,
     // Constrain output to viewport dimensions
     width: viewportWidth,
     height: viewportHeight,

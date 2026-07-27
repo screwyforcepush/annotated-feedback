@@ -2,7 +2,7 @@
 
 **Package Name**: `annotated-feedback`
 **NPM Registry**: https://www.npmjs.com/package/annotated-feedback
-**Current Version**: 0.1.21
+**Current Version**: 0.1.28
 
 ---
 
@@ -466,7 +466,13 @@ git push
 
 When publishing, add an entry to this section:
 
-### v0.1.24 - 2025-11-24 ✅ CURRENT
+### v0.1.28 - 2026-07-27 ✅ CURRENT
+- **Fix**: Screenshot capture failed on any page with a MediaStream-fed `<video>` (e.g. camera scanner previews), killing the entire feedback submission
+- **Root cause**: html-to-image keys video serialization on `currentSrc`, which is always empty for `srcObject` streams; with no `poster` it fetched the empty poster URL (= the page's own HTML), fed `data:text/html` to `new Image()`, and rejected the capture with a raw img error Event
+- **Change**: `captureScreenshot` now passes a `filter` to `toBlob` that skips `<video>` nodes with no `currentSrc` and no `poster`; their styled container still renders in the screenshot
+- **Package**: 48 files, 375.9 kB
+
+### v0.1.24 - 2025-11-24
 - **Critical Fix**: Convex context isolation for apps with existing ConvexProvider
 - **Changes**:
   - FeedbackProvider no longer wraps children with ConvexProvider
