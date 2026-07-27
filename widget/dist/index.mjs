@@ -246,7 +246,9 @@ function FeedbackOverlay({ onClose, metadata }) {
       ".Stack_vertical.App-menu_top__left",
       '[class*="layer-ui__wrapper"]',
       ".undo-redo-buttons",
-      '[class*="undo-redo"]'
+      '[class*="undo-redo"]',
+      ".App-bottom-bar",
+      '[class*="App-bottom-bar"]'
     ]);
     if (toggleButton) {
       toggleButton.style.display = "none";

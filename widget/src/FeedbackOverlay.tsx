@@ -213,6 +213,8 @@ export function FeedbackOverlay({ onClose, metadata }: FeedbackOverlayProps) {
       '[class*="layer-ui__wrapper"]',
       '.undo-redo-buttons',
       '[class*="undo-redo"]',
+      '.App-bottom-bar',
+      '[class*="App-bottom-bar"]',
     ]);
 
     // Also hide the toggle button

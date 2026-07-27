@@ -2,7 +2,7 @@
 
 **Package Name**: `annotated-feedback`
 **NPM Registry**: https://www.npmjs.com/package/annotated-feedback
-**Current Version**: 0.1.28
+**Current Version**: 0.1.29
 
 ---
 
@@ -466,7 +466,12 @@ git push
 
 When publishing, add an entry to this section:
 
-### v0.1.28 - 2026-07-27 ✅ CURRENT
+### v0.1.29 - 2026-07-27 ✅ CURRENT
+- **Fix**: Excalidraw's mobile bottom toolbar (`.App-bottom-bar`) was not hidden during screenshot capture, so it appeared in submitted screenshots on mobile viewports
+- **Change**: Added `.App-bottom-bar` and `[class*="App-bottom-bar"]` to the `hideInterfaceElements` selector list in FeedbackOverlay's submit flow
+- **Package**: 48 files, 376.0 kB
+
+### v0.1.28 - 2026-07-27
 - **Fix**: Screenshot capture failed on any page with a MediaStream-fed `<video>` (e.g. camera scanner previews), killing the entire feedback submission
 - **Root cause**: html-to-image keys video serialization on `currentSrc`, which is always empty for `srcObject` streams; with no `poster` it fetched the empty poster URL (= the page's own HTML), fed `data:text/html` to `new Image()`, and rejected the capture with a raw img error Event
 - **Change**: `captureScreenshot` now passes a `filter` to `toBlob` that skips `<video>` nodes with no `currentSrc` and no `poster`; their styled container still renders in the screenshot
